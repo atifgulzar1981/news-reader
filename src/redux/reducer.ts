@@ -1,7 +1,7 @@
 import { produce } from "immer";
 
 import { HackerNewsState, HackerNewsActions } from "../types";
-import { STORY_INCREMENT } from "../constants";
+import { STORY_INCREMENT, MAX_STORIES } from "../constants";
 
 const initialState: HackerNewsState = {
   isLoading: false,
@@ -28,9 +28,15 @@ export default (
       }
 
       case "NEW_PAGE_REQUEST": {
-        draft.currentPageLastIndex =
-          state.currentPageLastIndex + STORY_INCREMENT;
-        draft.currentPageStartIndex = state.currentPageLastIndex;
+        if (state.currentPageLastIndex + STORY_INCREMENT >= MAX_STORIES) {
+          draft.currentPageLastIndex = MAX_STORIES;
+          draft.currentPageStartIndex = MAX_STORIES - STORY_INCREMENT;
+        } else {
+          draft.currentPageLastIndex =
+            state.currentPageLastIndex + STORY_INCREMENT;
+          draft.currentPageStartIndex = state.currentPageLastIndex;
+        }
+
         return draft;
       }
     }

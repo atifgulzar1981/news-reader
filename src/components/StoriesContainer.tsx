@@ -7,44 +7,51 @@ import Story from "./Story";
 
 export default () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector<HackerNewsState, boolean>(
-    (state) => state.isLoading
+  const appState = useSelector<HackerNewsState, HackerNewsState>(
+    (state) => state
   );
-  const pageStartIndex = useSelector<HackerNewsState, number>(
-    (state) => state.currentPageStartIndex
-  );
-  const pageLastIndex = useSelector<HackerNewsState, number>(
-    (state) => state.currentPageLastIndex
-  );
-  const storyIds = useSelector<HackerNewsState, number[]>(
-    (state) => state.storyIds
-  );
-
+ 
   useEffect(() => {
     dispatch(getStoryIds());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const currentPageStoryIds: number[] = [];
-  for (let i = pageStartIndex; i < pageLastIndex; i++) {
-    currentPageStoryIds.push(storyIds[i]);
+  if (appState.storyIds && appState.storyIds.length > 0) {
+    for (
+      let i = appState.currentPageStartIndex;
+      i < appState.currentPageLastIndex;
+      i++
+    ) {
+      currentPageStoryIds.push(appState.storyIds[i]);
+    }
   }
+  console.log(appState);
 
   const gotoNextPage = () => {
     dispatch(getNewPage());
-  }
+  };
 
-  if (isLoading) {
+  if (appState.isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
     <div className="container">
       <h1>New Stories</h1>
-      {currentPageStoryIds.map((storyId, index) => (
-        <Story storyId={storyId} index={++index} pageStartIndex={pageStartIndex} />
-      ))}
-      <button className="btn btn-primary" onClick={()=> gotoNextPage()}>More</button>
+      {currentPageStoryIds.map((storyId, index) => {
+        return (
+          <Story
+            key={storyId}
+            storyId={storyId}
+            index={++index}
+            pageStartIndex={appState.currentPageStartIndex}
+          />
+        );
+      })}
+      <button className="btn btn-primary" onClick={() => gotoNextPage()}>
+        More
+      </button>
       <p>&nbsp;</p>
     </div>
   );
