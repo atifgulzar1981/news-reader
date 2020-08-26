@@ -10,7 +10,7 @@ export default () => {
   const appState = useSelector<HackerNewsState, HackerNewsState>(
     (state) => state
   );
- 
+
   useEffect(() => {
     dispatch(getStoryIds());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,7 +38,9 @@ export default () => {
 
   return (
     <div className="container">
-      <h1>New Stories</h1>
+      <p> </p>
+      <h6 className="text-white bg-dark">New Stories</h6>
+      <p> </p>
       {currentPageStoryIds.map((storyId, index) => {
         return (
           <Story
@@ -49,7 +51,7 @@ export default () => {
           />
         );
       })}
-      <button className="btn btn-primary" onClick={() => gotoNextPage()}>
+      <button className="btn btn-xs btn-primary" onClick={() => gotoNextPage()}>
         More
       </button>
       <p>&nbsp;</p>

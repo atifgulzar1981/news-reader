@@ -14,7 +14,8 @@ export interface Story {
   title: string;
   url: string;
   by: string;
-  time: string;
+  time: number;
+  score: number;
 }
 
 export type HackerNewsActions =

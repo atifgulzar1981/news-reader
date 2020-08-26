@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { Story } from "../types";
 import { storyUrl } from "../constants";
+import { getTimeDifference } from "../helpers";
 
 export interface OwnProps {
   storyId: number;
@@ -21,13 +22,27 @@ export default ({ storyId, index, pageStartIndex }: OwnProps) => {
   useEffect(() => {
     getStory(storyId).then((data) => data && data.url && setStory(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getStory]);
+  }, []);
+
+  // if (!story || !story.url) {
+  //   return (
+  //     <div className="spinner-border" role="status">
+  //       <span className="sr-only">Loading...</span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
-      {pageStartIndex + index}. <a href={story.url}>{story.title}</a>
+      <small className="text-muted">{pageStartIndex + index}. </small>
+      <mark>
+        <a href={story.url}>{story.title}</a>
+      </mark>
       <p>
-        By: {story.by} Posted: {story.time}
+        <small className="text-muted">
+          {story.score} {story.score > 1 ? "points" : "point"} by {story.by}{" "}
+          {getTimeDifference(story.time)}
+        </small>
       </p>
       <hr />
     </>
