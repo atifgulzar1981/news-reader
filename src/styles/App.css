@@ -13,6 +13,15 @@
   }
 }
 
+.story-title {
+  background-color: #ff6600;
+}
+
+.story-container {
+  background-color: #f6f6ef;
+  padding: 10px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
