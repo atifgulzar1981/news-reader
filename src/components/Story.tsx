@@ -21,19 +21,10 @@ export default ({ storyId, index, pageStartIndex }: OwnProps) => {
 
   useEffect(() => {
     getStory(storyId).then((data) => data && data.url && setStory(data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // if (!story || !story.url) {
-  //   return (
-  //     <div className="spinner-border" role="status">
-  //       <span className="sr-only">Loading...</span>
-  //     </div>
-  //   );
-  // }
+  }, [storyId]);
 
   return (
-    <>
+    <div data-testid="story-details">
       <small className="text-muted">{pageStartIndex + index}. </small>
       <mark>
         <a href={story.url}>{story.title}</a>
@@ -45,6 +36,6 @@ export default ({ storyId, index, pageStartIndex }: OwnProps) => {
         </small>
       </p>
       <hr />
-    </>
+    </div>
   );
 };
